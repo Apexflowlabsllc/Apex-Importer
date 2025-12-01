@@ -12,7 +12,6 @@ import HomePage from "./home/page";
 import SettingsPage from "./settings/page";
 import ImportPage from "./import/page";
 import { useEffect } from "react";
-import WordpressPage from "./wordpress/page";
 
 // This is our main SPA router component
 export default function AppRouter() {
@@ -63,9 +62,6 @@ export default function AppRouter() {
         return <SettingsPage />;
       case "import":
         return <ImportPage />;
-      case "wordpress":
-        // You can now render a specific component for this view
-        return <WordpressPage />;
       case "home":
       default:
         return <HomePage />;
