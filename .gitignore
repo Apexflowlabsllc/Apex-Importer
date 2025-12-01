@@ -1,0 +1,6 @@
+/.env.old
+/node_modules
+/.notes
+/.shopify
+/.next
+/.vscode

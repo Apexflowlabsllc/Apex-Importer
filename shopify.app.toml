@@ -1,0 +1,19 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "305b3a179b9c61bd71b0b0ef4d37bfdd"
+name = "Apex Importer Dev"
+application_url = "https://apex.fiery.tools"
+embedded = true
+
+[webhooks]
+api_version = "2025-10"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products,read_orders,read_locations,write_inventory"
+
+optional_scopes = [ ]
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [ "https://apex.fiery.tools/apu/auth/callback" ]

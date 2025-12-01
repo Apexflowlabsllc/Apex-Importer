@@ -1,0 +1,41 @@
+{
+  "name": "apex-importer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "tunnel": "cloudflared tunnel run ebayify-dev",
+    "show": "sleep 5 & echo https://admin.shopify.com/store/quickstart-4ef5affe/apps/esyncify",
+    "dev:concurrent": "concurrently \"npm:dev\" \"npm:tunnel\" \"npm:show\"",
+    "deploy": "shopify app deploy",
+    "reinstall": "npm run deploy & shopify app dev",
+    "postinstall": "prisma generate",
+    "install": "node install-app.cjs quickstart-4ef5affe",
+    "link": "shopify app config link"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "@shopify/app-bridge": "^3.7.10",
+    "@shopify/app-bridge-react": "^3.7.9",
+    "@shopify/app-bridge-utils": "^3.5.1",
+    "@shopify/polaris": "^13.9.5",
+    "@shopify/shopify-api": "^12.0.0",
+    "bullmq": "^5.58.5",
+    "next": "15.5.2",
+    "papaparse": "^5.5.3",
+    "prisma": "^6.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "cheerio": "^1.1.2",
+    "concurrently": "^9.2.1",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.2"
+  }
+}

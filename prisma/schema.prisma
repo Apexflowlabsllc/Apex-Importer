@@ -1,0 +1,99 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // provider          = "sqlite"
+  // url = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id          String    @id @unique
+  // REMOVED: shop        String
+  state       String
+  isOnline    Boolean   @default(false)
+  scope       String?
+  expires     DateTime?
+  accessToken String?
+  userId      BigInt?
+
+  // 👇 ADDED: These two lines create the relationship
+  shopDomain String // This is the foreign key
+  shop       Shop   @relation(fields: [shopDomain], references: [domain], onDelete: Cascade)
+}
+
+model Shop {
+  id                      Int       @id @default(autoincrement())
+  domain                  String    @unique
+  ebaySellerUsername      String?
+  plan                    Plan      @default(FREE)
+  categories              String?
+  sampleProduct           String?
+  numEbayProducts         Int       @default(0)
+  productsSyncedThisMonth Int       @default(0)
+  quotaResetDate          DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  // 👇 ADDED: Fields for eBay OAuth2 Tokens
+  ebayAccessToken         String?
+  ebayRefreshToken        String?
+  ebayTokenExpiresAt      DateTime? // To know when the access token expires
+  ebayOAuthState          String?   @unique
+
+  ebayUserId        String?
+  ebayAccountType   String?
+  ebayMarketplaceId String?
+
+  wordpressNonce String?
+  wordpressToken String?
+  wordpressUrl String?
+
+
+  sessions Session[]
+}
+
+model Blog {
+  id          Int       @id @default(autoincrement())
+  html        String
+  status      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+}
+
+enum Plan {
+  FREE
+  PLUS
+  PRO
+}
+
+model Job {
+  id         String   @id @default(cuid())
+  shopDomain String // This is how we know which shop it belongs to
+  status     String
+  total      Int
+  processed  Int      @default(0)
+  succeeded  Int      @default(0)
+  failed     Int      @default(0)
+  options    String? // The full options object, stringified
+  error      String?
+  imports    Import[] // Relation to individual import records
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Import {
+  id               String   @id @default(cuid())
+  shopDomain       String
+  jobId            String?
+  job              Job?     @relation(fields: [jobId], references: [id])
+  shopifyProductId String?
+  productData      Json
+  status           String // "SUCCESS" or "FAILED"
+  action           String? // "created" or "updated"
+  error            String?
+  createdAt        DateTime @default(now())
+}
