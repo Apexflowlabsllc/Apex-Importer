@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+
+
+    {
+      "name": "Run Dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev", // This runs Shopify with the debug TOML
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Worker",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "node scripts/worker", // This runs Shopify with the debug TOML
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Attach to Remix (9230)",
+      "type": "node",
+      "request": "attach",
+      "port": 9230,
+      "timeout": 20000,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Shopify App",
+      "configurations": ["Run Dev with Debug Config", "Attach to Remix (9230)"],
+      "stopAll": true
+    }
+  ]
+}
