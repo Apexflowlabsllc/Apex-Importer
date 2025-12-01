@@ -4,3 +4,4 @@
 /.shopify
 /.next
 /.vscode.env
+.env
